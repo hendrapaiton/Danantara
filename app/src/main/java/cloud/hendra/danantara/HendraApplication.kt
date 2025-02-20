@@ -14,7 +14,6 @@ class HendraApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidLogger()
             androidContext(this@HendraApplication)
             modules(
                 listOf(

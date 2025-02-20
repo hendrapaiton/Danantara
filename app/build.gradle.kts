@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
-    // DataStore
-    implementation(libs.androidx.datastore.preferences)
+    // Security
+    implementation(libs.androidx.security.crypto)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
 }
