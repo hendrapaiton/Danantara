@@ -2,6 +2,7 @@ package cloud.hendra.danantara.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cloud.hendra.danantara.domain.usecase.CheckUseCase
 import cloud.hendra.danantara.domain.usecase.LoginUseCase
 import cloud.hendra.danantara.domain.usecase.RefreshUseCase
 import cloud.hendra.danantara.utils.authentication.AuthState.*
@@ -12,13 +13,10 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel(
     private val loginUseCase: LoginUseCase,
-    private val refreshUseCase: RefreshUseCase
+    private val checkUseCase: CheckUseCase,
 ) : ViewModel() {
     private val _authState = MutableStateFlow<GuardState>(GuardState.Unauthenticated)
     val authState: StateFlow<GuardState> = _authState
-
-    private val _refreshState = MutableStateFlow<GuardState>(GuardState.Unauthenticated)
-    val refreshState: StateFlow<GuardState> = _refreshState
 
     fun login(username: String, password: String) {
         viewModelScope.launch {
@@ -32,14 +30,14 @@ class AuthViewModel(
         }
     }
 
-    fun refresh() {
+    fun check() {
         viewModelScope.launch {
-            _refreshState.value = GuardState.Unauthenticated
-            when (val result = refreshUseCase()) {
-                is Success -> _refreshState.value = GuardState.Authenticated
-                is Error -> _refreshState.value = GuardState.Error(result.message)
-                Loading -> _refreshState.value = GuardState.Loading
-                Idle -> GuardState.Unauthenticated
+            _authState.value = GuardState.Loading
+            when (val result = checkUseCase()) {
+                is Success -> _authState.value = GuardState.Authenticated
+                is Error -> _authState.value = GuardState.Error(result.message)
+                is Loading -> _authState.value = GuardState.Loading
+                else -> _authState.value = GuardState.Unauthenticated
             }
         }
     }

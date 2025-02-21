@@ -24,6 +24,10 @@ fun AuthNavHost(
 ) {
     val authState by authViewModel.authState.collectAsState()
 
+    LaunchedEffect(Unit) {
+        authViewModel.check()
+    }
+
     val startDestination = remember(authState) {
         if (authState is GuardState.Authenticated) SALDO_PAGE else LOGIN_PAGE
     }

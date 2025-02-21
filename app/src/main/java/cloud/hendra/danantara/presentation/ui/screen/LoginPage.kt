@@ -8,13 +8,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cloud.hendra.danantara.presentation.viewmodel.AuthViewModel
 import cloud.hendra.danantara.utils.state.GuardState
 import org.koin.androidx.compose.koinViewModel
@@ -22,8 +25,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewModel()) {
     val authState by viewModel.authState.collectAsState()
-    val username = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     LaunchedEffect(authState) {
         if (authState is GuardState.Authenticated) onLoginSuccess()
@@ -34,28 +37,48 @@ fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewMod
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextField(
-                value = username.value,
-                onValueChange = { username.value = it },
+            Text(
+                text = "Selamat Datang".uppercase(),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = "Ternak Cuan",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.ExtraLight,
+                color = MaterialTheme.colorScheme.secondary,
+                letterSpacing = 5.sp
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            OutlinedTextField(
+                value = username,
+                onValueChange = { username = it },
                 label = { Text("Username") },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
-            TextField(
-                value = password.value,
-                onValueChange = { password.value = it },
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
                 label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = { viewModel.login(username.value, password.value) },
                 modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = { viewModel.login(username, password) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
             ) {
-                Text("Login")
+                Text(
+                    text = "Masuk".uppercase(),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                )
             }
         }
     }
