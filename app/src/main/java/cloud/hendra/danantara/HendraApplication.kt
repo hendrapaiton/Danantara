@@ -7,7 +7,6 @@ import cloud.hendra.danantara.utils.module.serviceModule
 import cloud.hendra.danantara.utils.module.usecaseModule
 import cloud.hendra.danantara.utils.module.viewmodelModule
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class HendraApplication : Application() {
