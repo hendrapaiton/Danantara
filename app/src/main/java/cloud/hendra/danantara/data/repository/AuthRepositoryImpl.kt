@@ -3,8 +3,6 @@ package cloud.hendra.danantara.data.repository
 import cloud.hendra.danantara.data.remote.AuthService
 import cloud.hendra.danantara.domain.model.LoginRequest
 import cloud.hendra.danantara.utils.authentication.AuthState
-import cloud.hendra.danantara.utils.authentication.TokenManager
-import cloud.hendra.danantara.utils.state.GuardState
 
 class AuthRepositoryImpl(
     private val service: AuthService

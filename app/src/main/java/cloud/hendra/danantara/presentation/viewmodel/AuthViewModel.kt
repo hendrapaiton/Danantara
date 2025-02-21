@@ -15,7 +15,7 @@ class AuthViewModel(
     private val loginUseCase: LoginUseCase,
     private val checkUseCase: CheckUseCase,
 ) : ViewModel() {
-    private val _authState = MutableStateFlow<GuardState>(GuardState.Unauthenticated)
+    private val _authState = MutableStateFlow<GuardState>(GuardState.Loading)
     val authState: StateFlow<GuardState> = _authState
 
     fun login(username: String, password: String) {

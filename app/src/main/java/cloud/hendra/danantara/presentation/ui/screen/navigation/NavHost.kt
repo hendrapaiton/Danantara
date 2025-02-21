@@ -4,11 +4,13 @@ import androidx.compose.runtime.*
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import cloud.hendra.danantara.presentation.ui.screen.LoadingScreen
 import cloud.hendra.danantara.presentation.ui.screen.LoginPage
 import cloud.hendra.danantara.presentation.ui.screen.ReportPage
 import cloud.hendra.danantara.presentation.ui.screen.SaldoPage
 import cloud.hendra.danantara.presentation.ui.screen.SalesPage
 import cloud.hendra.danantara.presentation.ui.screen.StockPage
+import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.LOADING
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.LOGIN_PAGE
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.REPORT_PAGE
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.SALDO_PAGE
@@ -23,19 +25,30 @@ fun AuthNavHost(
     authViewModel: AuthViewModel
 ) {
     val authState by authViewModel.authState.collectAsState()
+    val startDestination = remember { LOADING }
 
     LaunchedEffect(Unit) {
         authViewModel.check()
     }
 
-    val startDestination = remember(authState) {
-        if (authState is GuardState.Authenticated) SALDO_PAGE else LOGIN_PAGE
+    LaunchedEffect(authState) {
+        when (authState) {
+            is GuardState.Authenticated -> navController.navigate(SALDO_PAGE)
+            is GuardState.Unauthenticated -> navController.navigate(LOGIN_PAGE)
+            else -> {
+                authViewModel.check()
+                navController.navigate(LOADING)
+            }
+        }
     }
 
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
+        composable(LOADING) {
+            LoadingScreen()
+        }
         composable(LOGIN_PAGE) {
             LoginPage(
                 onLoginSuccess = {
@@ -47,55 +60,19 @@ fun AuthNavHost(
         }
 
         composable(SALDO_PAGE) {
-            if (authState !is GuardState.Authenticated) {
-                LaunchedEffect(Unit) {
-                    navController.navigate(LOGIN_PAGE) {
-                        popUpTo(LOGIN_PAGE) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                }
-            } else {
-                SaldoPage()
-            }
+            SaldoPage()
         }
 
         composable(SALES_PAGE) {
-            if (authState !is GuardState.Authenticated) {
-                LaunchedEffect(Unit) {
-                    navController.navigate(LOGIN_PAGE) {
-                        popUpTo(LOGIN_PAGE) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                }
-            } else {
-                SalesPage()
-            }
+            SalesPage()
         }
 
         composable(STOCK_PAGE) {
-            if (authState !is GuardState.Authenticated) {
-                LaunchedEffect(Unit) {
-                    navController.navigate(LOGIN_PAGE) {
-                        popUpTo(LOGIN_PAGE) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                }
-            } else {
-                StockPage()
-            }
+            StockPage()
         }
 
         composable(REPORT_PAGE) {
-            if (authState !is GuardState.Authenticated) {
-                LaunchedEffect(Unit) {
-                    navController.navigate(LOGIN_PAGE) {
-                        popUpTo(LOGIN_PAGE) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                }
-            } else {
-                ReportPage()
-            }
+            ReportPage()
         }
     }
 }

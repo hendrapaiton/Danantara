@@ -1,6 +1,7 @@
 package cloud.hendra.danantara.presentation.ui.screen.navigation
 
 object Routes {
+    const val LOADING = "loading"
     const val LOGIN_PAGE = "login"
     const val SALDO_PAGE = "saldo"
     const val SALES_PAGE = "sales"
