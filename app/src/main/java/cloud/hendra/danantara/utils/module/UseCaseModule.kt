@@ -6,6 +6,5 @@ import org.koin.dsl.module
 
 val usecaseModule = module {
     single { LoginUseCase(get()) }
-    single { RefreshUseCase(get()) }
     single { CheckUseCase(get()) }
 }
