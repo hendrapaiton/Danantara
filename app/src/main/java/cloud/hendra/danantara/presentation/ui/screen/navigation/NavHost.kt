@@ -18,11 +18,12 @@ import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.SALES_PAG
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.STOCK_PAGE
 import cloud.hendra.danantara.presentation.viewmodel.AuthViewModel
 import cloud.hendra.danantara.utils.state.GuardState
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AuthNavHost(
     navController: NavHostController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel = koinViewModel()
 ) {
     val authState by authViewModel.authState.collectAsState()
     val startDestination = remember { LOADING }

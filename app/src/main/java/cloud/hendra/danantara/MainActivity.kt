@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
 import cloud.hendra.danantara.presentation.ui.screen.navigation.AuthNavHost
 import cloud.hendra.danantara.presentation.ui.theme.DanantaraTheme
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,8 +14,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             DanantaraTheme {
                 AuthNavHost(
-                    navController = navController,
-                    authViewModel = getViewModel()
+                    navController = navController
                 )
             }
         }
