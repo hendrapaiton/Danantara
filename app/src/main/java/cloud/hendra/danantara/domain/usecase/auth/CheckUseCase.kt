@@ -1,4 +1,4 @@
-package cloud.hendra.danantara.domain.usecase
+package cloud.hendra.danantara.domain.usecase.auth
 
 import cloud.hendra.danantara.data.repository.AuthRepository
 

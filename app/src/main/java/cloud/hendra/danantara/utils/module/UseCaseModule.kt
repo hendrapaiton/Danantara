@@ -1,7 +1,7 @@
 package cloud.hendra.danantara.utils.module
 
-import cloud.hendra.danantara.domain.usecase.CheckUseCase
-import cloud.hendra.danantara.domain.usecase.LoginUseCase
+import cloud.hendra.danantara.domain.usecase.auth.CheckUseCase
+import cloud.hendra.danantara.domain.usecase.auth.LoginUseCase
 import org.koin.dsl.module
 
 val usecaseModule = module {

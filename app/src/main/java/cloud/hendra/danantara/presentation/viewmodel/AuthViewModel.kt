@@ -2,8 +2,8 @@ package cloud.hendra.danantara.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cloud.hendra.danantara.domain.usecase.CheckUseCase
-import cloud.hendra.danantara.domain.usecase.LoginUseCase
+import cloud.hendra.danantara.domain.usecase.auth.CheckUseCase
+import cloud.hendra.danantara.domain.usecase.auth.LoginUseCase
 import cloud.hendra.danantara.utils.authentication.AuthState.*
 import cloud.hendra.danantara.utils.state.GuardState
 import kotlinx.coroutines.flow.MutableStateFlow
