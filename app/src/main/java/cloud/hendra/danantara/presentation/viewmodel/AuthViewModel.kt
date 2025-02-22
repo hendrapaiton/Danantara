@@ -27,6 +27,7 @@ class AuthViewModel(
                     _authState.value = GuardState.Authenticated
                     tokenManager.saveAccessToken(result.token)
                 }
+
                 is Error -> _authState.value = GuardState.Error(result.message)
                 Loading -> _authState.value = GuardState.Loading
                 Idle -> _authState.value = GuardState.Unauthenticated
@@ -38,7 +39,11 @@ class AuthViewModel(
         viewModelScope.launch {
             _authState.value = GuardState.Loading
             when (val result = checkUseCase()) {
-                is Success -> _authState.value = GuardState.Authenticated
+                is Success -> {
+                    _authState.value = GuardState.Authenticated
+                    tokenManager.saveAccessToken(result.token)
+                }
+
                 is Error -> _authState.value = GuardState.Error(result.message)
                 is Loading -> _authState.value = GuardState.Loading
                 else -> _authState.value = GuardState.Unauthenticated

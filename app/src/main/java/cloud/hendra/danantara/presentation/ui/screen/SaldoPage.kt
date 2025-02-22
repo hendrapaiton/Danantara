@@ -35,6 +35,7 @@ fun SaldoPage(
         }
 
         is ResultState.Error -> {
+            MainScreen()
             Toast.makeText(
                 LocalContext.current,
                 "Terjadi kesalahan: $result",

@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 val viewmodelModule = module {
     single { AuthViewModel(get(), get(), get()) }
-    single { SaldoViewModel(get()) }
+    single { SaldoViewModel(get(), get(), get()) }
 }

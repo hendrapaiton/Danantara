@@ -36,7 +36,6 @@ class AuthRepositoryImpl(
             val response = service.login(LoginRequest(username, password))
             if (response.isSuccessful) {
                 response.body()?.let {
-
                     AuthState.Success(it)
                 } ?: AuthState.Error("Empty response body")
             } else {
