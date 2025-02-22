@@ -36,6 +36,7 @@ fun AuthNavHost(
         when (authState) {
             is GuardState.Authenticated -> navController.navigate(SALDO_PAGE)
             is GuardState.Unauthenticated -> navController.navigate(LOGIN_PAGE)
+            is GuardState.Error -> navController.navigate(LOGIN_PAGE)
             else -> {
                 authViewModel.check()
                 navController.navigate(LOADING)
@@ -61,7 +62,13 @@ fun AuthNavHost(
         }
 
         composable(SALDO_PAGE) {
-            SaldoPage()
+            SaldoPage(
+                onOpenStore = {
+                    navController.navigate(SALES_PAGE) {
+                        popUpTo(SALDO_PAGE) { inclusive = true }
+                    }
+                }
+            )
         }
 
         composable(SALES_PAGE) {

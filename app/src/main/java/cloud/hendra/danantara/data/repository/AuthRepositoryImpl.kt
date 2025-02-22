@@ -5,7 +5,7 @@ import cloud.hendra.danantara.domain.model.LoginRequest
 import cloud.hendra.danantara.utils.authentication.AuthState
 
 class AuthRepositoryImpl(
-    private val service: AuthService
+    private val service: AuthService,
 ) : AuthRepository {
     override suspend fun cekToken(): AuthState {
         return try {
@@ -17,7 +17,7 @@ class AuthRepositoryImpl(
                     if (response.isSuccessful) {
                         AuthState.Success(response.body()!!)
                     } else {
-                        AuthState.Error("Token refresh failed")
+                        AuthState.Error("${response.code()} Token refresh failed")
                     }
                 }
 
@@ -36,6 +36,7 @@ class AuthRepositoryImpl(
             val response = service.login(LoginRequest(username, password))
             if (response.isSuccessful) {
                 response.body()?.let {
+
                     AuthState.Success(it)
                 } ?: AuthState.Error("Empty response body")
             } else {
