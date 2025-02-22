@@ -1,14 +1,12 @@
 package cloud.hendra.danantara.data.repository
 
-import cloud.hendra.danantara.data.remote.AuthService
 import cloud.hendra.danantara.data.remote.SaldoService
 import cloud.hendra.danantara.domain.model.SaldoRequest
 import cloud.hendra.danantara.domain.model.SaldoResponse
 import cloud.hendra.danantara.utils.state.ResultState
 
 class SaldoRepositoryImpl(
-    private val saldoService: SaldoService,
-    private val authService: AuthService
+    private val saldoService: SaldoService
 ) : SaldoRepository {
     override suspend fun openSaldo(saldo: SaldoRequest): ResultState<SaldoResponse> {
         return try {
