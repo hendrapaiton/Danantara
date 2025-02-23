@@ -12,7 +12,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            DanantaraTheme {
+            DanantaraTheme(
+                darkTheme = false
+            ) {
                 AuthNavHost(
                     navController = navController
                 )

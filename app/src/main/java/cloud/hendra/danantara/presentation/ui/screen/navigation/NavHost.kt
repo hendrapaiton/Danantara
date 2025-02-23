@@ -34,7 +34,7 @@ fun AuthNavHost(
 
     LaunchedEffect(authState) {
         when (authState) {
-            is GuardState.Authenticated -> navController.navigate(SALDO_PAGE)
+            is GuardState.Authenticated -> navController.navigate(SALES_PAGE)
             is GuardState.Unauthenticated -> navController.navigate(LOGIN_PAGE)
             is GuardState.Error -> navController.navigate(LOGIN_PAGE)
             else -> {
@@ -54,7 +54,7 @@ fun AuthNavHost(
         composable(LOGIN_PAGE) {
             LoginPage(
                 onLoginSuccess = {
-                    navController.navigate(SALDO_PAGE) {
+                    navController.navigate(SALES_PAGE) {
                         popUpTo(LOGIN_PAGE) { inclusive = true }
                     }
                 }

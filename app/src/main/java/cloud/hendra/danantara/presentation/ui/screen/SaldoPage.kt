@@ -38,7 +38,6 @@ fun SaldoPage(
 
         is ResultState.Error -> {
             ResultState.Initial
-            viewModel.checkSaldo()
         }
     }
 }
