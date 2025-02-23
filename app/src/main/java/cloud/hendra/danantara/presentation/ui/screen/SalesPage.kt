@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import cloud.hendra.danantara.presentation.ui.component.common.SearchBar
 import cloud.hendra.danantara.presentation.ui.component.common.TopBar
 import cloud.hendra.danantara.presentation.ui.component.sales.ProductCard
+import cloud.hendra.danantara.presentation.ui.component.sales.TotalAction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,59 +73,7 @@ fun SalesPage() {
             Spacer(modifier = Modifier.height(16.dp))
             ProductCard()
             Spacer(modifier = Modifier.height(16.dp))
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = materialColors.surfaceVariant
-                )
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row {
-                        Button(
-                            onClick = { },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = materialColors.primary,
-                                contentColor = materialColors.onPrimary
-                            )
-                        ) {
-                            Text("Cash")
-                        }
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        Button(
-                            onClick = { },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = materialColors.secondary,
-                                contentColor = materialColors.onSecondary
-                            )
-                        ) {
-                            Text("Qris")
-                        }
-                    }
-
-                    Column {
-                        Text(
-                            text = "Total Keseluruhan".uppercase(),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Light,
-                            color = materialColors.onSurfaceVariant
-                        )
-                        Text(
-                            text = "Rp. 200.000",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = materialColors.primary
-                        )
-                    }
-                }
-            }
+            TotalAction()
         }
     }
 }
