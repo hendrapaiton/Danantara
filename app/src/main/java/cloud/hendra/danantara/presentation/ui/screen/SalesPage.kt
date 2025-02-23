@@ -48,14 +48,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cloud.hendra.danantara.presentation.ui.component.common.SearchBar
 import cloud.hendra.danantara.presentation.ui.component.common.TopBar
+import cloud.hendra.danantara.presentation.ui.component.sales.ProductCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SalesPage() {
     val materialColors = MaterialTheme.colorScheme
-    var initialText by remember { mutableStateOf("CD") }
-    var quantityText by remember { mutableStateOf(TextFieldValue("0")) }
-    var isFocused by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -72,102 +70,7 @@ fun SalesPage() {
         ) {
             SearchBar()
             Spacer(modifier = Modifier.height(16.dp))
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = materialColors.surfaceVariant
-                ),
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(0.2f),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .size(70.dp)
-                                .background(
-                                    materialColors.primaryContainer,
-                                    shape = RoundedCornerShape(8.dp)
-                                )
-                        ) {
-                            Text(
-                                text = initialText.takeIf { it.isNotEmpty() }?.uppercase() ?: "",
-                                fontSize = 20.sp,
-                                color = materialColors.onPrimaryContainer
-                            )
-                        }
-                    }
-                    Column(
-                        modifier = Modifier
-                            .weight(0.8f)
-                            .padding(start = 16.dp)
-                    ) {
-                        Text(
-                            text = "Nama Barang".uppercase(),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = materialColors.onSurface
-                        )
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                "Rp. 18.000",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = materialColors.primary
-                            )
-                            IconButton(onClick = {}) {
-                                Icon(
-                                    imageVector = Icons.Default.Clear,
-                                    contentDescription = "",
-                                    tint = materialColors.onSurface
-                                )
-                            }
-                            BasicTextField(
-                                value = quantityText,
-                                onValueChange = { quantityText = it },
-                                modifier = Modifier
-                                    .width(60.dp)
-                                    .background(
-                                        materialColors.surface,
-                                        shape = RoundedCornerShape(4.dp)
-                                    )
-                                    .border(
-                                        1.dp,
-                                        materialColors.outline,
-                                        shape = RoundedCornerShape(4.dp)
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    .onFocusChanged { focusState ->
-                                        isFocused = focusState.isFocused
-                                        if (focusState.isFocused) {
-                                            quantityText = quantityText.copy(
-                                                selection = TextRange(0, quantityText.text.length)
-                                            )
-                                        }
-                                    },
-                                textStyle = LocalTextStyle.current.copy(
-                                    color = materialColors.onSurface,
-                                    textAlign = TextAlign.Right
-                                ),
-                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-
-                                )
-                        }
-                    }
-                }
-            }
+            ProductCard()
             Spacer(modifier = Modifier.height(16.dp))
             Card(
                 modifier = Modifier.fillMaxWidth(),
