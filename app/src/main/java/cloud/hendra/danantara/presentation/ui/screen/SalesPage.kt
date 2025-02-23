@@ -18,13 +18,10 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,8 +31,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,6 +46,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cloud.hendra.danantara.presentation.ui.component.common.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,49 +59,7 @@ fun SalesPage() {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        "Sales",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = materialColors.onPrimaryContainer
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = materialColors.primaryContainer,
-                    titleContentColor = materialColors.onPrimaryContainer,
-                    actionIconContentColor = materialColors.onPrimaryContainer
-                ),
-                actions = {
-                    var expanded by remember { mutableStateOf(false) }
-                    Box {
-                        IconButton(onClick = { expanded = true }) {
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "More"
-                            )
-                        }
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("Stock") },
-                                onClick = { }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("Report") },
-                                onClick = { }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("Close") },
-                                onClick = { }
-                            )
-                        }
-                    }
-                }
-            )
+            TopBar(title = "Sales")
         }
     ) { innerPadding ->
         Column(
@@ -222,7 +176,7 @@ fun SalesPage() {
                                 ),
                                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
 
-                            )
+                                )
                         }
                     }
                 }
@@ -267,9 +221,9 @@ fun SalesPage() {
 
                     Column {
                         Text(
-                            text = "Total",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.ExtraLight,
+                            text = "Total Keseluruhan".uppercase(),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
                             color = materialColors.onSurfaceVariant
                         )
                         Text(
