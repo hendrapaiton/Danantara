@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Menu
@@ -29,16 +30,25 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -46,9 +56,10 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SalesPage() {
     val materialColors = MaterialTheme.colorScheme
-    var searchText = remember { mutableStateOf(TextFieldValue("Cari Barang...")) }
-    var initialText = remember { mutableStateOf(TextFieldValue("CD")) }
-    var quantityText = remember { mutableStateOf(TextFieldValue("0")) }
+    var initialText by remember { mutableStateOf("CD") }
+    var searchText by remember { mutableStateOf(TextFieldValue("")) }
+    var quantityText by remember { mutableStateOf(TextFieldValue("0")) }
+    var isFocused by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -80,11 +91,15 @@ fun SalesPage() {
                             onDismissRequest = { expanded = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Export Data") },
+                                text = { Text("Stock") },
                                 onClick = { }
                             )
                             DropdownMenuItem(
-                                text = { Text("Settings") },
+                                text = { Text("Report") },
+                                onClick = { }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Close") },
                                 onClick = { }
                             )
                         }
@@ -101,21 +116,18 @@ fun SalesPage() {
                 .fillMaxSize()
                 .background(materialColors.background),
         ) {
-            BasicTextField(
-                value = searchText.value,
-                onValueChange = { searchText.value = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        materialColors.surfaceVariant,
-                        shape = RoundedCornerShape(4.dp)
-                    )
-                    .border(
-                        1.dp,
-                        materialColors.outline,
-                        shape = RoundedCornerShape(4.dp)
-                    )
-                    .padding(8.dp),
+            OutlinedTextField(
+                value = searchText,
+                onValueChange = { searchText = it },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text("Cari Barang...") },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = materialColors.surfaceVariant,
+                    unfocusedContainerColor = materialColors.surfaceVariant,
+                    focusedBorderColor = materialColors.outline,
+                    unfocusedBorderColor = materialColors.outline
+                ),
+                shape = RoundedCornerShape(4.dp),
                 textStyle = LocalTextStyle.current.copy(color = materialColors.onSurface)
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -146,8 +158,7 @@ fun SalesPage() {
                                 )
                         ) {
                             Text(
-                                text = initialText.value.text.takeIf { it.isNotEmpty() }
-                                    ?.uppercase() ?: "",
+                                text = initialText.takeIf { it.isNotEmpty() }?.uppercase() ?: "",
                                 fontSize = 20.sp,
                                 color = materialColors.onPrimaryContainer
                             )
@@ -183,10 +194,10 @@ fun SalesPage() {
                                 )
                             }
                             BasicTextField(
-                                value = quantityText.value,
-                                onValueChange = { quantityText.value = it },
+                                value = quantityText,
+                                onValueChange = { quantityText = it },
                                 modifier = Modifier
-                                    .width(80.dp)
+                                    .width(60.dp)
                                     .background(
                                         materialColors.surface,
                                         shape = RoundedCornerShape(4.dp)
@@ -196,10 +207,21 @@ fun SalesPage() {
                                         materialColors.outline,
                                         shape = RoundedCornerShape(4.dp)
                                     )
-                                    .padding(8.dp),
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    .onFocusChanged { focusState ->
+                                        isFocused = focusState.isFocused
+                                        if (focusState.isFocused) {
+                                            quantityText = quantityText.copy(
+                                                selection = TextRange(0, quantityText.text.length)
+                                            )
+                                        }
+                                    },
                                 textStyle = LocalTextStyle.current.copy(
-                                    color = materialColors.onSurface
-                                )
+                                    color = materialColors.onSurface,
+                                    textAlign = TextAlign.Right
+                                ),
+                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+
                             )
                         }
                     }
