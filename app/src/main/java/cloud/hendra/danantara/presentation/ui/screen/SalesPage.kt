@@ -46,6 +46,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cloud.hendra.danantara.presentation.ui.component.common.SearchBar
 import cloud.hendra.danantara.presentation.ui.component.common.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +54,6 @@ import cloud.hendra.danantara.presentation.ui.component.common.TopBar
 fun SalesPage() {
     val materialColors = MaterialTheme.colorScheme
     var initialText by remember { mutableStateOf("CD") }
-    var searchText by remember { mutableStateOf(TextFieldValue("")) }
     var quantityText by remember { mutableStateOf(TextFieldValue("0")) }
     var isFocused by remember { mutableStateOf(false) }
 
@@ -70,20 +70,7 @@ fun SalesPage() {
                 .fillMaxSize()
                 .background(materialColors.background),
         ) {
-            OutlinedTextField(
-                value = searchText,
-                onValueChange = { searchText = it },
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Cari Barang...") },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = materialColors.surfaceVariant,
-                    unfocusedContainerColor = materialColors.surfaceVariant,
-                    focusedBorderColor = materialColors.outline,
-                    unfocusedBorderColor = materialColors.outline
-                ),
-                shape = RoundedCornerShape(4.dp),
-                textStyle = LocalTextStyle.current.copy(color = materialColors.onSurface)
-            )
+            SearchBar()
             Spacer(modifier = Modifier.height(16.dp))
             Card(
                 colors = CardDefaults.cardColors(
