@@ -7,13 +7,11 @@ import androidx.navigation.compose.composable
 import cloud.hendra.danantara.presentation.ui.screen.LoadingScreen
 import cloud.hendra.danantara.presentation.ui.screen.LoginPage
 import cloud.hendra.danantara.presentation.ui.screen.ReportPage
-import cloud.hendra.danantara.presentation.ui.screen.SaldoPage
 import cloud.hendra.danantara.presentation.ui.screen.SalesPage
 import cloud.hendra.danantara.presentation.ui.screen.StockPage
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.LOADING
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.LOGIN_PAGE
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.REPORT_PAGE
-import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.SALDO_PAGE
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.SALES_PAGE
 import cloud.hendra.danantara.presentation.ui.screen.navigation.Routes.STOCK_PAGE
 import cloud.hendra.danantara.presentation.viewmodel.AuthViewModel
@@ -56,16 +54,6 @@ fun AuthNavHost(
                 onLoginSuccess = {
                     navController.navigate(SALES_PAGE) {
                         popUpTo(LOGIN_PAGE) { inclusive = true }
-                    }
-                }
-            )
-        }
-
-        composable(SALDO_PAGE) {
-            SaldoPage(
-                onOpenStore = {
-                    navController.navigate(SALES_PAGE) {
-                        popUpTo(SALDO_PAGE) { inclusive = true }
                     }
                 }
             )
