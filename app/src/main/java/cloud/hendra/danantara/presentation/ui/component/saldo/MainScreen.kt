@@ -1,5 +1,6 @@
 package cloud.hendra.danantara.presentation.ui.component.saldo
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -15,26 +16,34 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cloud.hendra.danantara.presentation.viewmodel.SaldoViewModel
+import cloud.hendra.danantara.utils.state.ResultState
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MainScreen() {
+fun MainScreen(onOpenStore: () -> Unit, viewModel: SaldoViewModel = koinViewModel()) {
     val selectedOption = remember { mutableStateOf("P") }
     var text = remember { mutableStateOf("") }
     var isFocused = remember { mutableStateOf(false) }
+
+    val state = viewModel.open.collectAsState()
 
     Column(
         modifier = Modifier
@@ -56,8 +65,8 @@ fun MainScreen() {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
-                    selected = selectedOption.value == "Pagi",
-                    onClick = { selectedOption.value = "Pagi" },
+                    selected = selectedOption.value == "P",
+                    onClick = { selectedOption.value = "P" },
                     colors = RadioButtonDefaults.colors(selectedColor = Color.Blue)
                 )
                 Text(text = "Pagi")
@@ -65,8 +74,8 @@ fun MainScreen() {
             Spacer(modifier = Modifier.width(32.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
-                    selected = selectedOption.value == "Sore",
-                    onClick = { selectedOption.value = "Sore" },
+                    selected = selectedOption.value == "S",
+                    onClick = { selectedOption.value = "S" },
                     colors = RadioButtonDefaults.colors(selectedColor = Color.Blue)
                 )
                 Text(text = "Sore")
@@ -110,12 +119,34 @@ fun MainScreen() {
                 fontSize = 16.sp
             )
         )
-        Button(
-            onClick = {}, modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        ) {
-            Text("Buka Toko")
+
+        when (val result = state.value) {
+            ResultState.Initial -> {
+                Button(
+                    onClick = { viewModel.openStore(selectedOption.value, text.value.toInt()) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Text("Buka Toko")
+                }
+            }
+
+            is ResultState.Success -> {
+                if (result.data.hasOpenSaldo) {
+                    onOpenStore()
+                }
+            }
+
+            is ResultState.Error -> {
+                Toast.makeText(
+                    LocalContext.current,
+                    "Terjadi kesalahan: ${result.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            ResultState.Loading -> CircularProgressIndicator()
         }
     }
 }

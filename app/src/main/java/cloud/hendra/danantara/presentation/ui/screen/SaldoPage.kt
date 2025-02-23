@@ -1,5 +1,6 @@
 package cloud.hendra.danantara.presentation.ui.screen
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,25 +23,22 @@ fun SaldoPage(
     }
 
     when (val result = state.value) {
-        is ResultState.Success -> {
-            if (result.data.hasOpenSaldo) {
-                onOpenStore()
-            } else {
-                MainScreen()
-            }
-        }
-
+        is ResultState.Initial -> Unit
         is ResultState.Loading -> {
             LoadingScreen()
         }
 
+        is ResultState.Success -> {
+            if (result.data.hasOpenSaldo) {
+                onOpenStore()
+            } else {
+                MainScreen(onOpenStore = onOpenStore)
+            }
+        }
+
         is ResultState.Error -> {
-            MainScreen()
-            Toast.makeText(
-                LocalContext.current,
-                "Terjadi kesalahan: $result",
-                Toast.LENGTH_LONG
-            ).show()
+            ResultState.Initial
+            viewModel.checkSaldo()
         }
     }
 }

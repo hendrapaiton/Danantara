@@ -1,5 +1,7 @@
 package cloud.hendra.danantara.domain.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Saldo(
     val id: Int,
     val shift: String,
@@ -10,10 +12,10 @@ data class Saldo(
 
 data class SaldoRequest(
     val shift: String,
-    val awal: Double
+    val awal: Int
 )
 
 data class SaldoResponse(
-    val hasOpenSaldo: Boolean,
+    @SerializedName("has_open_saldo") val hasOpenSaldo: Boolean,
     val saldo: Saldo
 )
