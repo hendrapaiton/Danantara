@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(title: String) {
+fun TopBar(title: String, goToStock: () -> Unit, goToReport: () -> Unit) {
     val materialColors = MaterialTheme.colorScheme
 
     TopAppBar(
@@ -54,11 +54,11 @@ fun TopBar(title: String) {
                 ) {
                     DropdownMenuItem(
                         text = { Text("Stock") },
-                        onClick = { }
+                        onClick = { goToStock() }
                     )
                     DropdownMenuItem(
                         text = { Text("Report") },
-                        onClick = { }
+                        onClick = { goToReport() }
                     )
                     DropdownMenuItem(
                         text = { Text("Close") },

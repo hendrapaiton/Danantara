@@ -60,7 +60,18 @@ fun AuthNavHost(
         }
 
         composable(SALES_PAGE) {
-            SalesPage()
+            SalesPage(
+                goToStock = {
+                    navController.navigate(STOCK_PAGE) {
+                        popUpTo(SALES_PAGE) { inclusive = true }
+                    }
+                },
+                goToReport = {
+                    navController.navigate(REPORT_PAGE) {
+                        popUpTo(SALES_PAGE) { inclusive = true }
+                    }
+                }
+            )
         }
 
         composable(STOCK_PAGE) {

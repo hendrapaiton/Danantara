@@ -19,12 +19,12 @@ import cloud.hendra.danantara.presentation.ui.component.sales.TotalAction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SalesPage() {
+fun SalesPage(goToStock: () -> Unit, goToReport: () -> Unit) {
     val materialColors = MaterialTheme.colorScheme
 
     Scaffold(
         topBar = {
-            TopBar(title = "Sales")
+            TopBar(title = "Sales", goToStock, goToReport)
         }
     ) { innerPadding ->
         Column(
